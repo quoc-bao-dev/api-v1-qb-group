@@ -1,0 +1,20 @@
+/node_modules
+/dist/
+# .gitignore
+
+# Ignore log files
+*.log
+
+# Ignore node_modules
+node_modules/
+
+# Ignore environment files
+*.env
+
+# Ignore Python compiled files
+*.pyc
+__pycache__/
+
+# Ignore specific files or directories
+.DS_Store
+.idea/

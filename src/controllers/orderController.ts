@@ -4,6 +4,8 @@ import { BadRequestError } from '../errors/error';
 import ProductModel from '../model/productModel';
 import addressService from '../services/addressService';
 import orderService from '../services/orderService';
+import { log } from 'console';
+import VoucherModel, { VoucherDocument } from '../model/voucherModel';
 
 const orderController = {
     getAll: async (req: Request, res: Response, next: NextFunction) => {
@@ -54,6 +56,19 @@ const orderController = {
                 await addressService.create(deliveryAddress);
             }
 
+            // checkVoucher
+
+            if (data.voucher) {
+                const vouchers = data.voucher as VoucherDocument[];
+                vouchers.forEach(async (voucher) => {
+                    await VoucherModel.findOneAndUpdate(
+                        { code: voucher.code },
+                        {
+                            $inc: { usageCount: 1 },
+                        }
+                    );
+                });
+            }
             // add payment method
             const result = await orderService.create(data);
 
@@ -65,6 +80,8 @@ const orderController = {
             }
 
             res.status(200).json(result);
+
+            res.status(200).json({});
         } catch (error) {
             next(error);
         }

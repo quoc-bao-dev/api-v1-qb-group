@@ -2,8 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 import _ from 'lodash';
 import { NotFoundError } from '../errors/error';
 import userService from '../services/userService';
-import { log } from 'console';
-import getImageLink from '../util/image';
 
 const userController = {
     getAll: async (req: Request, res: Response, next: NextFunction) => {
@@ -41,7 +39,7 @@ const userController = {
     update: async (req: Request, res: Response, next: NextFunction) => {
         try {
             const image = req.file;
-            const avatar = getImageLink(req.file?.filename!);
+            const avatar = req.file?.filename!;
             const { id } = req.params;
             const data = _.omit(req.body, ['username', 'email']);
             if (image) {

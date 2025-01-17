@@ -106,7 +106,7 @@ const productService: ProductService = {
     getHotSale: async () => {
         try {
             //? get hot sale
-            const result = await ProductModel.find({ isShow: true }).sort({ discount: -1 }).limit(4);
+            const result = await ProductModel.find({ isShow: true }).sort({ discount: -1 }).limit(10);
             return result;
         } catch (error) {
             throw error;

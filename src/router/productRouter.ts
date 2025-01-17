@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import productController from '../controllers/productController';
-import { log } from 'console';
 import { authenticateMiddleware } from '../middleware/authenticateMiddleware';
 import { checkRole } from '../middleware/checkRoleMiddleware';
 
@@ -18,8 +17,8 @@ productRouter.get('/view', authenticateMiddleware, checkRole(['admin']), product
 
 productRouter.get('/:id', productController.getById!);
 
-productRouter.post('/', productController.create);
-productRouter.patch('/:id', productController.update);
-productRouter.delete('/:id', productController.delete);
+productRouter.post('/', authenticateMiddleware, checkRole(['admin']), productController.create);
+productRouter.patch('/:id', authenticateMiddleware, productController.update);
+productRouter.delete('/:id', authenticateMiddleware, checkRole(['admin']), productController.delete);
 
 export default productRouter;

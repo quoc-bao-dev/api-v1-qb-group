@@ -17,7 +17,9 @@ const reviewController = {
             const { id } = req.params;
             const data = await reviewService.getByProduct(id);
             if (!data) {
-                throw new NotFoundError(`Reviews for product with ID ${id} not found`);
+                throw new NotFoundError(
+                    `Reviews for product with ID ${id} not found`
+                );
             }
             res.status(200).json(data);
         } catch (error) {
@@ -30,7 +32,9 @@ const reviewController = {
             const { id } = req.params;
             const data = await reviewService.getByUser(id);
             if (!data) {
-                throw new NotFoundError(`Reviews for user with ID ${id} not found`);
+                throw new NotFoundError(
+                    `Reviews for user with ID ${id} not found`
+                );
             }
             res.status(200).json(data);
         } catch (error) {
@@ -43,10 +47,13 @@ const reviewController = {
             const data = req.body.json;
             const files = req.files;
             const images = (files as Express.Multer.File[])!.map(
-                (file) => `${process.env.BASE_URL}:${process.env.PORT}/api/v1/image/${file.filename}`
+                (file) => `${file.filename}`
             );
 
-            const result = await reviewService.create({ ...JSON.parse(data), images });
+            const result = await reviewService.create({
+                ...JSON.parse(data),
+                images,
+            });
             res.status(200).json(result);
         } catch (error) {
             next(error);
