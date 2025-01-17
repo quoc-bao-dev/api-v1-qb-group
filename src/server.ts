@@ -40,12 +40,11 @@ app.set('trust proxy', true);
 //     next(); // Tiếp tục xử lý các middleware hoặc route tiếp theo
 // });
 
-const corsOptionsDelegate = function (req, callback) {
-    var corsOptions = { origin: true };
-    callback(null, corsOptions);
-};
-
-app.use(cors(corsOptionsDelegate));
+app.use(
+    cors({
+        origin: '*',
+    })
+);
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
